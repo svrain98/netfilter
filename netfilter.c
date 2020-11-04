@@ -6,8 +6,8 @@
 #include <linux/netfilter.h>		/* for NF_ACCEPT */
 #include <errno.h>
 #include <string.h>
-
 #include <libnetfilter_queue/libnetfilter_queue.h>
+
 unsigned char *test_data;
 unsigned char *site=0;
 int site_len=0;
@@ -70,11 +70,12 @@ static u_int32_t print_pkt (struct nfq_data *tb)
 
 	ret = nfq_get_payload(tb, &data);
 	if (ret >= 0){
-		printf("payload_len=%d ", ret);
+		printf("payload_len=%d \n", ret);
         //dump(data,ret);
-        test_data=data+20+20+16+6;
+        test_data=data+62;
         printf("\n\n");
-        //dump(test_data,site_len);
+        dump(test_data,site_len);
+		printf("\n\n");
         if(strncmp(test_data,site,site_len)==0){
             //printf("HIHIHIHIHIHIHI\n");
             flag=1;
@@ -107,8 +108,8 @@ int main(int argc, char **argv)
 	int fd;
 	int rv;
 	char buf[4096] __attribute__ ((aligned));
-    site=argv[1];
-    site_len=strlen(argv[1]);
+    site=(argv[1]);
+    site_len=strlen(site);
     printf("%d\n",site_len);
     dump(site,site_len);
 	printf("opening library handle\n");
